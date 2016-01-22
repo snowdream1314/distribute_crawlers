@@ -1,0 +1,8 @@
+eclipse.preferences.version=1
+encoding//conf/config.py=UTF-8
+encoding//crawlerSlave01/settings.py=utf-8
+encoding//crawlerSlave01/spiders/slaver01.py=UTF-8
+encoding//crawlerSlave01/spiders/slaver02.py=UTF-8
+encoding//items/item.py=UTF-8
+encoding//utils/net_util.py=UTF-8
+encoding//utils/send_to_queue.py=UTF-8
