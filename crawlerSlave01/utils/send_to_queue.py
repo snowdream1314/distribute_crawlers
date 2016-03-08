@@ -16,7 +16,9 @@ def sendCrawlItemsToQueue(database, item_collection_name, items, rabbitmq_host="
     
     queue = "insert_crawl_items"
     
-    connection = pika.BlockingConnection(pika.ConnectionParameters(host=rabbitmq_host))
+    credentials = pika.PlainCredentials('root', 'root123')
+    
+    connection = pika.BlockingConnection(pika.ConnectionParameters(host=rabbitmq_host, credentials=credentials))
     channel = connection.channel()
     
     channel.queue_declare(queue=queue, durable=True)
@@ -35,7 +37,7 @@ def sendCrawlItemsToQueue(database, item_collection_name, items, rabbitmq_host="
     channel.basic_publish(exchange='', 
                           routing_key=queue, 
                           body=body,
-                          properties=pika.BasicProperties(delivery_mode = 2,
+                          properties=pika.BasicProperties(delivery_mode = 2,# make message persistent
                         ))
      
     print "[x] sent items" 

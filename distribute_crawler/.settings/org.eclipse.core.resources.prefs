@@ -1,5 +1,7 @@
 eclipse.preferences.version=1
 encoding//conf/config.py=UTF-8
+encoding//distribute_crawler/items.py=utf-8
+encoding//distribute_crawler/pipelines.py=utf-8
 encoding//distribute_crawler/settings.py=utf-8
 encoding//distribute_crawler/spiders/smzdm_fx_urls.py=UTF-8
 encoding//plugin/receiveItemsFromQueue.py=UTF-8

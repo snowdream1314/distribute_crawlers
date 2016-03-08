@@ -41,7 +41,7 @@ class smzdmFx_urls_Spider(Spider):
         
         while 1 :
             
-            source_url = redisdb.rpop("SmzdmfxUrls")
+            source_url = redisdb.spop("SmzdmfxUrls")
             print source_url
             
             selector = loadHtmlSelector(source_url, method="GET")

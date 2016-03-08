@@ -9,14 +9,21 @@ import json
 
 import pika
 
-from conf.config import first_mongodb
+from conf.config import first_mongodb, redisdb
 
 
+def resetRedis(mongodb):
+    for item in mongodb.find():
+        redisdb.sadd(item.itemid)
+        
 def receiveItemsFromQueue(rabbitmq_host="localhost"):
     
     queue = "insert_crawl_items"
     
-    connection = pika.BlockingConnection(pika.ConnectionParameters('localhost'))
+    credentials = pika.PlainCredentials('root', 'root123')
+    
+    connection = pika.BlockingConnection(pika.ConnectionParameters('localhost', credentials=credentials))
+    
     channel = connection.channel()
     
     
@@ -32,7 +39,11 @@ def receiveItemsFromQueue(rabbitmq_host="localhost"):
         items = content['items']
         if len(items) == 0 : return
         mongodb = first_mongodb[database][item_collection_name]
+        resetRedis(mongodb)
         for item in items :
+            if redisdb.sismember("smzdmfx_itemids", item.itemid):
+                continue
+            redisdb.sadd("smzdmfx_itemids", item.itemid)
             mongodb.insert(item)
             print "insert item %s successfully" %item['itemid']
         print "all items inserted"

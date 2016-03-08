@@ -39,11 +39,11 @@ class smzdmFx_urls_Spider(RedisSpider):
             
             selector = loadHtmlSelector(source_url, method="GET")
             
-            if selector is None : return
+            if selector is None or selector.find("ul", {"class":"pagination"}): return
             if selector.find("ul", {"class":"pagination"}).find("li", {"class":"pagedown"}) is not None :
                 link_next = selector.find("ul", {"class":"pagination"}).find("li", {"class":"pagedown"}).find("a").attrs['href']
 #                 redisdb.rpushx("SmzdmfxUrls", link_next)
-                redisdb.rpush("SmzdmfxUrls",link_next)
+                redisdb.sadd("SmzdmfxUrls",link_next)
                 source_url = link_next
                 print source_url
 #                 receiveItemsFromQueue()
